@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "type": "java",
+        "name": "Main",
+        "request": "launch",
+        "mainClass": "Main",
+        "projectName": "Jdbc_f1604fed"
+    },
+    {
+        "type": "java",
+        "name": "Launch Main",
+        "request": "launch",
+        "mainClass": "Main",
+        "projectName": "Jdbc",
+        "vmArgs": "-cp .;c:/Users/KRISHNA/Downloads/postgresql-42.7.7.jar"
+    }
+]
+}

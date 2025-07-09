@@ -1,0 +1,8 @@
+{
+    "java.project.referencedLibraries": {
+        "include": [
+            "lib/**/*.jar",
+            "c://Users//KRISHNA//Downloads//postgresql-42.7.7.jar"
+        ],
+    }
+}
