@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class Appointment {
@@ -21,15 +23,20 @@ public class Appointment {
         int patient_id = scanner.nextInt();
         System.out.print("Enter Doctor Id : ");
         int doctor_id = scanner.nextInt();
-        System.out.print("Enter Appointment Date : ");
+        System.out.print("Enter Appointment Date YYYY-MM-DD : ");
         String appointemnt = scanner.next();
 
-        String query = "INSERT INTO appointments(patient_id,doctor_id,appointment VALUES(?,?,?)";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate appointmentDate = LocalDate.parse(appointemnt,formatter);
+
+        java.sql.Date sqlDate = java.sql.Date.valueOf(appointmentDate);
+
+        String query = "INSERT INTO appointments(patient_id,doctor_id,appointment) VALUES(?,?,?)";
         try {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, patient_id);
             statement.setInt(2, doctor_id);
-            statement.setString(3, appointemnt);
+            statement.setDate(3, sqlDate);
             int rowsAffected = statement.executeUpdate();
             if(rowsAffected>0){
                 System.out.println("Appointment Booked Successfully");
@@ -43,7 +50,7 @@ public class Appointment {
     }
 
     public void viewAppointments(){
-        String query = "SELECT id, doctors.name as doctor_name, patients.name as patient_name, appointment FROM appointments INNER JOIN patients ON appointments.patient_id = patients.id INNER JOIN doctors ON appointments.doctor_id = doctors.id";
+        String query = "SELECT appointments.id, doctors.name as doctor_name, patients.name as patient_name, appointment FROM appointments INNER JOIN patients ON appointments.patient_id = patients.id INNER JOIN doctors ON appointments.doctor_id = doctors.id";
 
         try {
             PreparedStatement statement = connection.prepareStatement(query);
